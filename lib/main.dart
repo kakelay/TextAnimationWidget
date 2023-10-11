@@ -315,7 +315,7 @@ class TextAnimationWidget extends StatelessWidget {
 
   Future<List<AnimatedText>> _generateTextAnimations() async {
     await Future.delayed(
-      const Duration(milliseconds: 2),
+      const Duration(milliseconds: 3),
     );
     return [
       TyperAnimatedText(
