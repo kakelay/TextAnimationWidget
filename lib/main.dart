@@ -3,7 +3,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wave/share_widgets/text_animation.dart';
 
 void main() => runApp(const MyApp());
 bool isDarkMode = false;
@@ -81,11 +80,11 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              onPressed: toggleTheme,
-              icon: isDarkMode
+            child: GestureDetector(
+              onTap: () => toggleTheme(),
+              child: isDarkMode
                   ? Icon(
-                      Icons.wb_sunny,
+                      Icons.wb_sunny_outlined,
                       color: isDarkMode ? Colors.black : Colors.black,
                     )
                   : Icon(
@@ -102,7 +101,7 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            stops: [0.4, 1],
+            stops: const [0.4, 1],
             colors: !isDarkMode
                 ? [
                     const Color(0xFF27163e),
@@ -214,7 +213,7 @@ final flights = <Flight>[
   ),
   Flight(
     from: Cities.paris, // Update the departure location
-    to: Cities.cambodia, // Specify Cambodia as the destination
+    to: Cities.vietname, // Specify Cambodia as the destination
     departureTime:
         DateTime.parse('2023-01-01 10:00:00'), // Update the departure time
     arrivalTime:
@@ -234,12 +233,12 @@ abstract class Cities {
   );
 
   static final cairo = FlightEndpoint(
-    offset: const Offset(56, 58),
+    offset: const Offset(60, 58),
     label: const Label(text: 'Cairo'),
   );
 
   static final capeTown = FlightEndpoint(
-    offset: const Offset(53.5, 86),
+    offset: const Offset(55.5, 86),
     label: const Label(text: 'Cape Town'),
   );
 
@@ -250,7 +249,45 @@ abstract class Cities {
 
   static final london = FlightEndpoint(
     offset: const Offset(48, 45),
-    label: const Label(text: 'London'),
+    label: ListView(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        Column(
+          children: [
+            const Label(text: 'Phnom Penh'),
+            const CircleAvatar(
+              radius: 80, // Image radius
+              backgroundImage: NetworkImage(
+                'https://avatars.githubusercontent.com/u/110383694?v=4',
+              ),
+            ),
+            Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      5,
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  'KakElay',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+            const SingleChildScrollView(
+              child: TextAnimationWidgetKakElay(),
+            ),
+          ],
+        ),
+      ],
+    ),
   );
 
   static final newYork = FlightEndpoint(
@@ -272,9 +309,9 @@ abstract class Cities {
     offset: const Offset(86, 54),
     label: const Label(text: 'Tokyo'),
   );
-  static final cambodia = FlightEndpoint(
+  static final vietname = FlightEndpoint(
     offset: const Offset(70, 38), // Adjust the offset as needed
-    label: const Label(text: 'Cambodia'),
+    label: const Label(text: 'Vietname'),
   );
 }
 
@@ -307,9 +344,6 @@ class Label extends StatelessWidget {
   }
 }
 
-
-
-
 class TextAnimationWidget extends StatelessWidget {
   const TextAnimationWidget({super.key});
 
@@ -319,7 +353,8 @@ class TextAnimationWidget extends StatelessWidget {
     );
     return [
       TyperAnimatedText(
-          'Flutter Developer Extraordinaire: Crafting the Future with Innovation'),
+        'Flutter Developer Extraordinaire: Crafting the Future with Innovation',
+      ),
     ];
   }
 
@@ -330,9 +365,48 @@ class TextAnimationWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return DefaultTextStyle(
-            style:   TextStyle(
-              fontSize: 40,
-               color: isDarkMode ? Colors.black : Colors.black,
+            style: TextStyle(
+              fontSize: 35,
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontWeight: FontWeight.w900,
+            ),
+            child: AnimatedTextKit(
+              animatedTexts: snapshot.data ?? [],
+              totalRepeatCount: 1000, // 0 means animation runs indefinitely
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator(); // Show a loading indicator
+        }
+      },
+    );
+  }
+}
+
+class TextAnimationWidgetKakElay extends StatelessWidget {
+  const TextAnimationWidgetKakElay({super.key});
+
+  Future<List<AnimatedText>> _generateTextAnimations() async {
+    await Future.delayed(
+      const Duration(milliseconds: 3),
+    );
+    return [
+      TyperAnimatedText(
+        'Flutter Developer with Innovation',
+      ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<AnimatedText>>(
+      future: _generateTextAnimations(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return DefaultTextStyle(
+            style: TextStyle(
+              fontSize: 35,
+              color: isDarkMode ? Colors.black : Colors.white,
               fontWeight: FontWeight.w900,
             ),
             child: AnimatedTextKit(
