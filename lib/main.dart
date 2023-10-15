@@ -3,6 +3,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:primer_progress_bar/primer_progress_bar.dart';
+import 'package:waveui/waveui.dart';
 
 void main() => runApp(const MyApp());
 bool isDarkMode = false;
@@ -42,6 +44,93 @@ class AnimatedFlightPathsExample extends StatefulWidget {
 class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  List<Segment> segments = [
+    Segment(
+      value: 80,
+      valueLabel: Text(' : 80 %',
+          style: TextStyle(
+            color: isDarkMode ? Colors.black : Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          )),
+      color: const Color.fromARGB(255, 54, 187, 227),
+      label: Text("Flutter",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+    Segment(
+      value: 70,
+      valueLabel: Text(' : 70 %',
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      color: const Color.fromARGB(255, 234, 255, 0),
+      label: Text("NodeJs",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+    Segment(
+      value: 65,
+      valueLabel: Text(' : 65 %',
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      color: const Color.fromARGB(255, 255, 0, 174),
+      label: Text("Figma",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+    Segment(
+      value: 45,
+      valueLabel: Text(' : 45 %',
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      color: const Color.fromARGB(255, 0, 255, 8),
+      label: Text("NuxtJs",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+    Segment(
+      value: 40,
+      valueLabel: Text(' : 40 %',
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      color: const Color.fromARGB(255, 255, 0, 0),
+      label: Text("HTML & CSS",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+    Segment(
+      value: 35,
+      valueLabel: Text(' : 35 %',
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      color: const Color.fromARGB(255, 255, 106, 0),
+      label: Text("Jave&Spring",
+          style: TextStyle(
+              color: isDarkMode ? Colors.black : Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ),
+  ];
 
   @override
   void initState() {
@@ -76,7 +165,7 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
           ),
         ),
         elevation: 0,
-        backgroundColor: isDarkMode ? Colors.white : const Color(0xFF27163e),
+        backgroundColor: isDarkMode ? Colors.grey : const Color(0xFF27163e),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -96,7 +185,7 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
         ],
       ),
       body: Container(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -108,36 +197,60 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
                     const Color(0xFF432a72),
                   ]
                 : [
-                    Colors.white,
-                    Colors.white24,
+                    const Color.fromARGB(255, 62, 60, 60),
+                    const Color.fromARGB(60, 35, 32, 32),
                   ],
           ),
         ),
         child: ListView(
           children: [
-            Image.network(
-                'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2023/08/ine-agresta-homepage.png'),
-            Center(child: _title),
-            const Center(child: TextAnimationWidget()),
-            const SizedBox(height: 24),
+            if (isDarkMode == true)
+              Image.asset('assets/images/black.png')
+            else
+              Image.asset('assets/images/white.png'),
+            Center(
+              child: Text(
+                'Kak Elay',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkMode ? Colors.black : Colors.white,
+                ),
+              ),
+            ),
+            const Center(
+              child: TextAnimationWidget(),
+            ),
+            const SizedBox(height: 100),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.content_paste_search_rounded,
+                      size: 40,
+                      color: isDarkMode ? Colors.black : Colors.white),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Skills',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Colors.black : Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            PrimerProgressBar(segments: segments),
+            const SizedBox(height: 50),
             Center(child: _animatedFlightPaths),
+            const SizedBox(height: 200),
           ],
         ),
       ),
     );
   }
-
-  Widget get _title => AutoSizeText(
-        'Kak Elay',
-        maxLines: 1,
-        style: GoogleFonts.righteous(
-          fontSize: 66,
-          foreground: Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2
-            ..color = SynthwaveColors.blue,
-        ),
-      );
 
   Widget get _animatedFlightPaths => AnimatedFlightPaths(
         controller: controller,
@@ -147,11 +260,14 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
           end: DateTime.parse('2023-01-01 23:59:00'),
           flights: flights,
         ),
-        options: const FlightPathOptions(
+        options: FlightPathOptions(
           showLabels: true,
-          fromEndpointColor: SynthwaveColors.yellow,
-          toEndpointColor: SynthwaveColors.yellow,
-          flightPathColor: SynthwaveColors.yellow,
+          fromEndpointColor:
+              isDarkMode ? SynthwaveColors.yellow : SynthwaveColors.red,
+          toEndpointColor:
+              isDarkMode ? SynthwaveColors.yellow : SynthwaveColors.red,
+          flightPathColor:
+              isDarkMode ? SynthwaveColors.yellow : SynthwaveColors.blue,
           fromEndpointCurve: Curves.easeInOut,
           flightPathCurve: Curves.easeInOutSine,
           toEndpointCurve: Curves.easeInOut,
@@ -168,8 +284,6 @@ class _AnimatedFlightPathsExampleState extends State<AnimatedFlightPathsExample>
           map: FlightMap.worldMercatorProjection,
           outlineColor: isDarkMode ? Colors.black : SynthwaveColors.pink,
           fillColor: isDarkMode ? Colors.black26 : SynthwaveColors.black,
-
-          // color: isDarkMode ? Colors.white : Colors.white,
         ),
       );
 }
@@ -212,12 +326,10 @@ final flights = <Flight>[
     arrivalTime: DateTime.parse('2023-01-01 23:00:00'),
   ),
   Flight(
-    from: Cities.paris, // Update the departure location
-    to: Cities.vietname, // Specify Cambodia as the destination
-    departureTime:
-        DateTime.parse('2023-01-01 10:00:00'), // Update the departure time
-    arrivalTime:
-        DateTime.parse('2023-01-01 13:00:00'), // Update the arrival time
+    from: Cities.paris,
+    to: Cities.vietname,
+    departureTime: DateTime.parse('2023-01-01 10:00:00'),
+    arrivalTime: DateTime.parse('2023-01-01 13:00:00'),
   ),
 ];
 
@@ -259,10 +371,11 @@ abstract class Cities {
             const Label(text: 'Phnom Penh'),
             const CircleAvatar(
               radius: 80, // Image radius
-              backgroundImage: NetworkImage(
-                'https://avatars.githubusercontent.com/u/110383694?v=4',
+              backgroundImage: AssetImage(
+               'assets/images/kakelay.png'
               ),
             ),
+           //Image.asset('assets/images/kakelay.png'),
             Center(
               child: Container(
                 decoration: const BoxDecoration(
@@ -273,16 +386,7 @@ abstract class Cities {
                     ),
                   ),
                 ),
-                child: const Text(
-                  'KakElay',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
               ),
-            ),
-            const SingleChildScrollView(
-              child: TextAnimationWidgetKakElay(),
             ),
           ],
         ),
@@ -311,7 +415,7 @@ abstract class Cities {
   );
   static final vietname = FlightEndpoint(
     offset: const Offset(70, 38), // Adjust the offset as needed
-    label: const Label(text: 'Vietname'),
+    label: const Label(text: 'Hanoi'),
   );
 }
 
@@ -320,6 +424,10 @@ abstract class SynthwaveColors {
   static const yellow = Color(0xFFfdfe43);
   static const blue = Color(0xFF74f7ff);
   static const black = Color(0xFF201130);
+  static const white = Color.fromARGB(255, 255, 255, 255);
+  static const red = Color.fromARGB(255, 255, 0, 0);
+  static const orange = Color.fromARGB(255, 255, 85, 0);
+  static const green = Color.fromARGB(255, 72, 255, 0);
 }
 
 class Label extends StatelessWidget {
@@ -353,8 +461,8 @@ class TextAnimationWidget extends StatelessWidget {
     );
     return [
       TyperAnimatedText(
-        'Flutter Developer Extraordinaire: Crafting the Future with Innovation',
-      ),
+          'You cannot undo the moves but you can make the next step better.',
+          curve: Curves.bounceIn),
     ];
   }
 
@@ -366,56 +474,17 @@ class TextAnimationWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return DefaultTextStyle(
             style: TextStyle(
-              fontSize: 35,
+              fontSize: 20,
               color: isDarkMode ? Colors.black : Colors.white,
               fontWeight: FontWeight.w900,
             ),
             child: AnimatedTextKit(
               animatedTexts: snapshot.data ?? [],
-              totalRepeatCount: 1000, // 0 means animation runs indefinitely
+              totalRepeatCount: 1000,
             ),
           );
         } else {
-          return const CircularProgressIndicator(); // Show a loading indicator
-        }
-      },
-    );
-  }
-}
-
-class TextAnimationWidgetKakElay extends StatelessWidget {
-  const TextAnimationWidgetKakElay({super.key});
-
-  Future<List<AnimatedText>> _generateTextAnimations() async {
-    await Future.delayed(
-      const Duration(milliseconds: 3),
-    );
-    return [
-      TyperAnimatedText(
-        'Flutter Developer with Innovation',
-      ),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<AnimatedText>>(
-      future: _generateTextAnimations(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return DefaultTextStyle(
-            style: TextStyle(
-              fontSize: 35,
-              color: isDarkMode ? Colors.black : Colors.white,
-              fontWeight: FontWeight.w900,
-            ),
-            child: AnimatedTextKit(
-              animatedTexts: snapshot.data ?? [],
-              totalRepeatCount: 1000, // 0 means animation runs indefinitely
-            ),
-          );
-        } else {
-          return const CircularProgressIndicator(); // Show a loading indicator
+          return const CircularProgressIndicator();
         }
       },
     );
